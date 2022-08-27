@@ -1,16 +1,15 @@
-# This is a sample Python script.
+from api import NewGame
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+player_1 = str(input('Имя первого игрока: '))
+player_2 = str(input('Имя второго игрока: '))
+
+start = NewGame(amount_player=1, name_1=player_1, name_2=player_2)
+
+start.game_map_player_1()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+
