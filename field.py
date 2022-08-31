@@ -1,38 +1,31 @@
 from colorama import Fore
 from colorama import Style
 
-def enemy_field():
-    X = 6
-    Y = 6
-    k = 1
-    masiv_a = [['-'] * X for i in range(Y)]
 
-    for row in masiv_a:
+
+
+def enemy_field(masiv_enemy):
+    k = 1
+    for row in masiv_enemy:
         a = ''
         for element in row:
             a += element + ' '
         yield (f"""{a}{Fore.RED} {k}{Style.RESET_ALL}""")
         k += 1
 
-
-
-def your_field():
-    X = 6
-    Y = 6
+def your_field(masiv_you):
     k = 1
-    masiv_a = [['-'] * X for i in range(Y)]
-
-    for row in masiv_a:
+    for row in masiv_you:
         a = ''
         for element in row:
             a += element + ' '
         yield (f"""{a}{Fore.GREEN} {k}{Style.RESET_ALL}""")
         k += 1
 
-def start_field():
-    n = your_field()
-    b = enemy_field()
-    print(f"""{Fore.GREEN}1 2 3 4 5 6 {Style.RESET_ALL}       {Fore.RED}1 2 3 4 5 6 {Style.RESET_ALL}""")
+def start_field(masiv_you,masiv_enemy):
+    n = your_field(masiv_you)
+    b = enemy_field(masiv_enemy)
+    print(f"""{Fore.GREEN}А Б В Г Д Е {Style.RESET_ALL}       {Fore.RED}А Б В Г Д Е {Style.RESET_ALL}""")
     try:
         while 1:
             print(n.__next__(), "   ", b.__next__())
