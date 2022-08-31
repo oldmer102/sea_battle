@@ -1,3 +1,4 @@
+import api
 from field import start_field
 
 X = 6
@@ -32,6 +33,9 @@ class Ship(object):
         pos_ch = 1
         pos_mas = 0
         mass = [["", ""], ["", ""], ["", ""]]
+        rules = api.PlacementRules()
+        if len(posiv.split(",")) != 3:
+            return False
         for k in posiv.split(","):
             for b in k:
                 if b.isdigit() == False:
@@ -39,6 +43,8 @@ class Ship(object):
                 else:
                     mass[pos_mas][pos_ch] = int(b)
             pos_mas += 1
+        if not rules.placement_check(position=mass):
+            return False
         for k, n in mass:
             masiv[n - 1][k - 1] = "■"
         return masiv
@@ -48,6 +54,9 @@ class Ship(object):
         pos_ch = 1
         pos_mas = 0
         mass = [["", ""], ["", ""]]
+        rules = api.PlacementRules()
+        if len(posiv.split(",")) != 2:
+            return False
         for k in posiv.split(","):
             for b in k:
                 if b.isdigit() == False:
@@ -55,12 +64,18 @@ class Ship(object):
                 else:
                     mass[pos_mas][pos_ch] = int(b)
             pos_mas += 1
+
+        if not rules.placement_check(position=mass):
+            print('Правило нар')
+            return False
         for k, n in mass:
             masiv[n - 1][k - 1] = "■"
         return masiv
 
     def ship_1(self, posiv, masiv):
         mass = ["", ""]
+        if len(posiv.split(",")) != 1:
+            return False
         for b in posiv:
             if b.isdigit() == False:
                 mass[0] = ord(b.lower()) - 1071
@@ -81,18 +96,17 @@ class PlacementRules(object):
         if amount > 3:
             return False
         for first, second in position[1:]:
-            if position_1 != first and (
-                position_1 + k == first or position_1 - k == first
-            ):
+            if position_1 != first and (position_1 + k == first or position_1 - k == first):
                 if position_2 == second:
-                    return True
+                    pass
                 else:
                     return False
             elif position_1 == first:
                 if position_2 + k == second or position_2 - k == second:
-                    return True
+                    pass
                 elif position_2 == second:
                     return False
             else:
                 return False
             k += 1
+        return True
