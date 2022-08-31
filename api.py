@@ -1,4 +1,4 @@
-import api
+
 from field import start_field
 
 X = 6
@@ -33,7 +33,7 @@ class Ship(object):
         pos_ch = 1
         pos_mas = 0
         mass = [["", ""], ["", ""], ["", ""]]
-        rules = api.PlacementRules()
+        rules = PlacementRules()
         if len(posiv.split(",")) != 3:
             return False
         for k in posiv.split(","):
@@ -54,7 +54,7 @@ class Ship(object):
         pos_ch = 1
         pos_mas = 0
         mass = [["", ""], ["", ""]]
-        rules = api.PlacementRules()
+        rules = PlacementRules()
         if len(posiv.split(",")) != 2:
             return False
         for k in posiv.split(","):

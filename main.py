@@ -14,14 +14,21 @@ ship = Ship()
 #ship.ship(ship_posiv=ship_rasp)
 X = 6
 Y = 6
-a = 'А1,В1,В1'
+a = 'А1,Б1,В1'
 b = 'А2,Б2'
 c = 'А3'
 masiv_a = [['-'] * X for i in range(Y)]
 masiv_e = [['-'] * X for i in range(Y)]
+k = ''
+if ship.ship_3(posiv=a, masiv=masiv_a):
+    k = ship.ship_3(posiv=a, masiv=masiv_a)
+if ship.ship_2(posiv=b, masiv=masiv_a):
+    k = ship.ship_2(posiv=b, masiv=k)
+if ship.ship_1(posiv=c, masiv=masiv_a):
+    k = ship.ship_1(posiv=c, masiv=k)
 
+start_field(k, masiv_e)
 
-print(ship.ship_3(posiv=a,masiv=masiv_a))
 
 # k = ship.ship_3(posiv=a,masiv=masiv_a)
 # k = ship.ship_2(posiv=b,masiv=k)
