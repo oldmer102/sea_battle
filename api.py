@@ -4,7 +4,8 @@ X = 6
 Y = 6
 my_slov = {}
 slov_deat = {}
-free_position = []
+deat_position = []
+busy_slot = []
 masiv_a = [["-"] * X for i in range(Y)]
 
 
@@ -46,19 +47,30 @@ class Ship(object):
         for k in posiv.split(","):
             for b in k:
                 if b.isdigit() == False:
-                    mass[pos_mas][pos_b] = ord(b.lower()) - 1071
+                    mass[pos_mas][pos_b] = ord(b.lower()) - 1072
                 else:
-                    mass[pos_mas][pos_ch] = int(b)
+                    mass[pos_mas][pos_ch] = int(b)-1
             pos_mas += 1
         if not rules.placement_check(position=mass):
             return False
+
         Ship.slovar(self, name, mass)
         jep = rules.placement_rules_x(position=my_slov, name=name)
         for i in jep:
-            free_position.append(i)
+            deat_position.append(i)
         slov_deat.update({name: jep})
+        for i in busy_slot:
+            for v in mass:
+                if i == v:
+                    return False
+        for i in mass:
+            busy_slot.append(i)
+        for i in deat_position:
+            for v in mass:
+                if i == v:
+                    return False
         for k, n in mass:
-            masiv[n - 1][k - 1] = "■"
+            masiv[n][k] = "■"
         return masiv
 
     def ship_2(self, posiv, masiv):
@@ -73,9 +85,9 @@ class Ship(object):
         for k in posiv.split(","):
             for b in k:
                 if b.isdigit() == False:
-                    mass[pos_mas][pos_b] = ord(b.lower()) - 1071
+                    mass[pos_mas][pos_b] = ord(b.lower()) - 1072
                 else:
-                    mass[pos_mas][pos_ch] = int(b)
+                    mass[pos_mas][pos_ch] = int(b) - 1
             pos_mas += 1
 
         if not rules.placement_check(position=mass):
@@ -83,10 +95,20 @@ class Ship(object):
         Ship.slovar(self, name, mass)
         jep = rules.placement_rules_x(position=my_slov, name=name)
         for i in jep:
-            free_position.append(i)
+            deat_position.append(i)
         slov_deat.update({name: jep})
+        for i in busy_slot:
+            for v in mass:
+                if i == v:
+                    return False
+        for i in mass:
+            busy_slot.append(i)
+        for i in deat_position:
+            for v in mass:
+                if i == v:
+                    return False
         for k, n in mass:
-            masiv[n - 1][k - 1] = "■"
+            masiv[n][k] = "■"
         return masiv
 
     def ship_1(self, posiv, masiv):
@@ -97,15 +119,25 @@ class Ship(object):
             return False
         for b in posiv:
             if b.isdigit() == False:
-                mass[0] = ord(b.lower()) - 1071
+                mass[0] = ord(b.lower()) - 1072
             else:
-                mass[1] = int(b)
+                mass[1] = int(b) - 1
         Ship.slovar(self, name, mass)
         jep = rules.placement_rules_x(position=my_slov, name=name)
         for i in jep:
-            free_position.append(i)
+            deat_position.append(i)
         slov_deat.update({name: jep})
-        masiv[mass[1] - 1][mass[0] - 1] = "■"
+        for i in busy_slot:
+            for v in mass:
+                if i == v:
+                    return False
+        for i in mass:
+            busy_slot.append(i)
+        for i in deat_position:
+            for v in mass:
+                if i == v:
+                    return False
+        masiv[mass[1]][mass[0]] = "■"
         return masiv
 
 

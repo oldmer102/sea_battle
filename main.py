@@ -1,7 +1,7 @@
 from api import NewGame
 from api import Ship
-
-from api import free_position
+from field import start_field
+from api import busy_slot
 # player_1 = str(input('Имя первого игрока: '))
 # player_2 = str(input('Имя второго игрока: '))
 # masiv_a = [['-'] * X for i in range(Y)]
@@ -16,14 +16,16 @@ ship = Ship()
 X = 6
 Y = 6
 a = 'А1,Б1,В1'
-b = 'А2,Б2'
+b = 'А3,Б3'
 #c = 'А3,Б3'
 masiv_a = [['-'] * X for i in range(Y)]
 masiv_e = [['-'] * X for i in range(Y)]
 # if ship.ship_3(posiv=a, masiv=masiv_a):
-k = ship.ship_3(posiv=a, masiv=masiv_a)
+k =ship.ship_3(posiv=a, masiv=masiv_a)
+print(k)
 # if ship.ship_2(posiv=b, masiv=masiv_a):
 k = ship.ship_2(posiv=b, masiv=k)
+print(k)
 # if ship.ship_1(posiv=c, masiv=masiv_a):
 #     k = ship.ship_1(posiv=c, masiv=k)
 #k = ship.ship_2(posiv=c, masiv=k)
