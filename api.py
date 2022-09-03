@@ -52,6 +52,7 @@ class Ship(object):
                     mass[pos_mas][pos_ch] = int(b)-1
             pos_mas += 1
         if not rules.placement_check(position=mass):
+
             return False
 
         Ship.slovar(self, name, mass)
@@ -68,6 +69,7 @@ class Ship(object):
         for i in deat_position:
             for v in mass:
                 if i == v:
+                    print(i, v)
                     return False
         for k, n in mass:
             masiv[n][k] = "■"
@@ -112,16 +114,16 @@ class Ship(object):
         return masiv
 
     def ship_1(self, posiv, masiv):
-        mass = ["", ""]
+        mass = [["", ""]]
         name = posiv
         rules = PlacementRules()
         if len(posiv.split(",")) != 1:
             return False
         for b in posiv:
             if b.isdigit() == False:
-                mass[0] = ord(b.lower()) - 1072
+                mass[0][0] = ord(b.lower()) - 1072
             else:
-                mass[1] = int(b) - 1
+                mass[0][1] = int(b) - 1
         Ship.slovar(self, name, mass)
         jep = rules.placement_rules_x(position=my_slov, name=name)
         for i in jep:
@@ -137,7 +139,7 @@ class Ship(object):
             for v in mass:
                 if i == v:
                     return False
-        masiv[mass[1]][mass[0]] = "■"
+        masiv[mass[0][1]][mass[0][0]] = "■"
         return masiv
 
 
@@ -172,33 +174,44 @@ class PlacementRules():
     def placement_rules_x(self, position, name):
         self.name = name
         array = position[self.name]
+        print(array)
         zapret = []
         position_1 = array[0][0]
         position_2 = array[0][1]
         position_last_1 = array[-1][0]
         position_last_2 = array[-1][1]
         # Вертикаль
-        if array[1][0] == position_1:
-            for k, v in array[1:]:
-                zapret.append([k - 1, v + 1])
-                zapret.append([k - 1, v - 1])
-                zapret.append([k + 1, v + 1])
-                zapret.append([k + 1, v - 1])
-                zapret.append([position_1 - 1, position_2 - 1])
-                zapret.append([position_1, position_2 - 1])
-                zapret.append([position_1 + 1, position_2 - 1])
-                zapret.append([position_last_1, position_last_2 + 1])
-        # Горизонталь
-        if array[0][1] == position_2:
-            for k, v in array[1:]:
-                zapret.append([k, v - 1])
-                zapret.append([k, v + 1])
-                zapret.append([position_1, position_2 - 1])
-                zapret.append([position_1, position_2 + 1])
-                zapret.append([position_1 - 1, position_2 - 1])
-                zapret.append([position_1 - 1, position_2 + 1])
-                zapret.append([position_1 - 1, position_2])
-                zapret.append([position_last_1 + 1, position_last_2 + 1])
-                zapret.append([position_last_1 + 1, position_last_2 - 1])
-                zapret.append([position_last_1 + 1, position_last_2])
+        if len(array) > 1:
+            if array[1][0] == position_1:
+                for k, v in array[1:]:
+                    zapret.append([k - 1, v + 1])
+                    zapret.append([k - 1, v - 1])
+                    zapret.append([k + 1, v + 1])
+                    zapret.append([k + 1, v - 1])
+                    zapret.append([position_1 - 1, position_2 - 1])
+                    zapret.append([position_1, position_2 - 1])
+                    zapret.append([position_1 + 1, position_2 - 1])
+                    zapret.append([position_last_1, position_last_2 + 1])
+            # Горизонталь
+            if array[1][1] == position_2:
+                for k, v in array[1:]:
+                    zapret.append([k, v - 1])
+                    zapret.append([k, v + 1])
+                    zapret.append([position_1, position_2 - 1])
+                    zapret.append([position_1, position_2 + 1])
+                    zapret.append([position_1 - 1, position_2 - 1])
+                    zapret.append([position_1 - 1, position_2 + 1])
+                    zapret.append([position_1 - 1, position_2])
+                    zapret.append([position_last_1 + 1, position_last_2 + 1])
+                    zapret.append([position_last_1 + 1, position_last_2 - 1])
+                    zapret.append([position_last_1 + 1, position_last_2])
+        if len(array) == 1:
+            zapret.append([position_1, position_2 - 1])
+            zapret.append([position_1, position_2 + 1])
+            zapret.append([position_1 - 1, position_2 + 1])
+            zapret.append([position_1 - 1, position_2 - 1])
+            zapret.append([position_1 - 1, position_2])
+            zapret.append([position_1 + 1, position_2 + 1])
+            zapret.append([position_1 + 1, position_2 - 1])
+            zapret.append([position_1 + 1, position_2])
         return zapret

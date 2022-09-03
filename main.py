@@ -15,9 +15,9 @@ ship = Ship()
 #ship.ship(ship_posiv=ship_rasp)
 X = 6
 Y = 6
-a = 'А1,Б1,В1'
-b = 'А3,Б3'
-#c = 'А3,Б3'
+a = 'А1,А2,А3'
+b = 'В1,Г1'
+c = 'В5'
 masiv_a = [['-'] * X for i in range(Y)]
 masiv_e = [['-'] * X for i in range(Y)]
 # if ship.ship_3(posiv=a, masiv=masiv_a):
@@ -27,7 +27,7 @@ print(k)
 k = ship.ship_2(posiv=b, masiv=k)
 print(k)
 # if ship.ship_1(posiv=c, masiv=masiv_a):
-#     k = ship.ship_1(posiv=c, masiv=k)
+k = ship.ship_1(posiv=c, masiv=k)
 #k = ship.ship_2(posiv=c, masiv=k)
 start_field(k, masiv_e)
 
