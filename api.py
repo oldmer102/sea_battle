@@ -215,3 +215,8 @@ class PlacementRules():
             zapret.append([position_1 + 1, position_2 - 1])
             zapret.append([position_1 + 1, position_2])
         return zapret
+
+
+class StartGame():
+    def shot(self):
+        pass
