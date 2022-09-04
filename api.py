@@ -3,6 +3,7 @@ from field import start_field
 X = 6
 Y = 6
 my_slov = {}
+
 slov_deat = {}
 deat_position = []
 busy_slot = []
@@ -34,6 +35,7 @@ class Ship(object):
         self.name = name
         self.coordinate = coordinate
         my_slov.update({name: coordinate})
+
 
     def ship_3(self, posiv, masiv):
         pos_b = 0
@@ -218,5 +220,47 @@ class PlacementRules():
 
 
 class StartGame():
-    def shot(self):
-        pass
+    def shot(self, shot_position, array):
+        mass = [["", ""]]
+        if len(shot_position.split(",")) != 1:
+            return False
+        for b in shot_position:
+            if b.isdigit() == False:
+                mass[0][0] = ord(b.lower()) - 1072
+            else:
+                mass[0][1] = int(b) - 1
+        array[mass[0][1]][mass[0][0]] = 'X'
+        return array
+
+    def shot_ship(self,shot_position):
+        mass = [["", ""]]
+        if len(shot_position.split(",")) != 1:
+            return False
+        for b in shot_position:
+            if b.isdigit() == False:
+                mass[0][0] = ord(b.lower()) - 1072
+            else:
+                mass[0][1] = int(b) - 1
+
+        for k, v in my_slov.items():
+            for i in v:
+                for b in mass:
+                    if i == b:
+                        my_slov.remove(i)
+
+
+    def deat_ship(self, array):
+        for k, v in my_slov.items():
+            if len(v) == 0:
+                del my_slov[k]
+                deat = slov_deat[k]
+                for i, m in deat:
+                    array[i][m] = 'X'
+
+                del slov_deat[k]
+                return deat
+            else:
+                return False
+
+
+
