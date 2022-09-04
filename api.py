@@ -1,16 +1,20 @@
 from field import start_field
-
+#Размер поля
 X = 6
 Y = 6
+#словарь расстановки
 my_slov = {}
-
+#словарь содержит координаты взрыва корабля
 slov_deat = {}
+#промежуточный список
 deat_position = []
+# проверка на занятость позиции
 busy_slot = []
 masiv_a = [["-"] * X for i in range(Y)]
 
 
 class NewGame(object):
+    #Наименование игрок
     def __init__(self, amount_player, name_1, name_2):
         self.player_1 = name_1
         self.amount = amount_player
@@ -31,12 +35,13 @@ class NewGame(object):
 
 
 class Ship(object):
+    #Запись в словарь расположения кораблей
     def slovar(self, name, coordinate):
         self.name = name
         self.coordinate = coordinate
         my_slov.update({name: coordinate})
 
-
+#Расстановка 3 коралей
     def ship_3(self, posiv, masiv):
         pos_b = 0
         pos_ch = 1
@@ -54,7 +59,6 @@ class Ship(object):
                     mass[pos_mas][pos_ch] = int(b)-1
             pos_mas += 1
         if not rules.placement_check(position=mass):
-
             return False
 
         Ship.slovar(self, name, mass)
@@ -71,12 +75,12 @@ class Ship(object):
         for i in deat_position:
             for v in mass:
                 if i == v:
-                    print(i, v)
                     return False
         for k, n in mass:
             masiv[n][k] = "■"
         return masiv
 
+    # Расстановка 2 коралей
     def ship_2(self, posiv, masiv):
         pos_b = 0
         pos_ch = 1
@@ -115,6 +119,7 @@ class Ship(object):
             masiv[n][k] = "■"
         return masiv
 
+    # Расстановка 1 коралей
     def ship_1(self, posiv, masiv):
         mass = [["", ""]]
         name = posiv
@@ -146,6 +151,7 @@ class Ship(object):
 
 
 class PlacementRules():
+    #проверка на горизонталь вертикаль и что бы соответствовал длине
     def placement_check(self, position):
         position_1 = position[0][0]
         position_2 = position[0][1]
@@ -172,11 +178,10 @@ class PlacementRules():
                 return False
             k += 1
         return True
-
+#Запись взрыва кораля
     def placement_rules_x(self, position, name):
         self.name = name
         array = position[self.name]
-        print(array)
         zapret = []
         position_1 = array[0][0]
         position_2 = array[0][1]
@@ -220,6 +225,7 @@ class PlacementRules():
 
 
 class StartGame():
+    #запись выстрела
     def shot(self, shot_position, array):
         mass = [["", ""]]
         if len(shot_position.split(",")) != 1:
@@ -231,7 +237,7 @@ class StartGame():
                 mass[0][1] = int(b) - 1
         array[mass[0][1]][mass[0][0]] = 'X'
         return array
-
+# Попадание по коралю
     def shot_ship(self,shot_position):
         mass = [["", ""]]
         if len(shot_position.split(",")) != 1:
@@ -248,7 +254,7 @@ class StartGame():
                     if i == b:
                         my_slov.remove(i)
 
-
+#Закраска полей вокруг корабля
     def deat_ship(self, array):
         for k, v in my_slov.items():
             if len(v) == 0:
@@ -256,7 +262,6 @@ class StartGame():
                 deat = slov_deat[k]
                 for i, m in deat:
                     array[i][m] = 'X'
-
                 del slov_deat[k]
                 return deat
             else:

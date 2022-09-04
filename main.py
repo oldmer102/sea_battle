@@ -1,41 +1,38 @@
 from api import NewGame
 from api import Ship
 from field import start_field
-from api import busy_slot
-# player_1 = str(input('Имя первого игрока: '))
-# player_2 = str(input('Имя второго игрока: '))
-# masiv_a = [['-'] * X for i in range(Y)]
-# start = NewGame(amount_player=1, name_1=player_1, name_2=player_2)
-ship = Ship()
-#
-#
-# start.game_map_player_1()
-
-#ship_rasp = str(input('Начнём с расстановки кораблей, в игре есть 3 вида: 1 палубных (4шт), 2 палубных (2шт), 3 палубный (1шт). Для расстановки используйте две координаты с перечисление через заяпятую(А1,Б1,В1): '))
-#ship.ship(ship_posiv=ship_rasp)
 X = 6
 Y = 6
-a = 'А1,А2,А3'
-b = 'В1,Г1'
-c = 'В5'
-masiv_a = [['-'] * X for i in range(Y)]
-masiv_e = [['-'] * X for i in range(Y)]
-# if ship.ship_3(posiv=a, masiv=masiv_a):
-k =ship.ship_3(posiv=a, masiv=masiv_a)
-print(k)
-# if ship.ship_2(posiv=b, masiv=masiv_a):
-k = ship.ship_2(posiv=b, masiv=k)
-print(k)
-# if ship.ship_1(posiv=c, masiv=masiv_a):
-k = ship.ship_1(posiv=c, masiv=k)
-#k = ship.ship_2(posiv=c, masiv=k)
-start_field(k, masiv_e)
+ship = Ship()
+masiv_a = [["-"] * X for i in range(Y)]
+masiv_e = [["-"] * X for g in range(Y)]
+amount = int(input("Сколько будет игроков, 1 или 2? "))
+if amount == 1:
+    name_player_1 = input('Как вас называть? ')
+    new_game = NewGame(amount_player=amount, name_1=name_player_1, name_2=None)
+    new_game.game_map_player_1()
 
 
-# k = ship.ship_3(posiv=a,masiv=masiv_a)
-# k = ship.ship_2(posiv=b,masiv=k)
-# k = ship.ship_1(posiv=c,masiv=k)
-# start_field(k,masiv_e)
+
+ship_3 = input('Начнём с расстаноки, назовите координаты кораля состоящего из 3 палуб, через запятую (А1,Б1,В1)')
+mapa = ship.ship_3(posiv=ship_3, masiv=masiv_a)
+start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+ship_2 = input('Назовите координаты кораля состоящего из 2 палуб, через запятую (А1,Б1)')
+mapa = ship.ship_2(posiv=ship_2, masiv=masiv_a)
+start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+ship_2_1 = input('Назовите координаты кораля состоящего из 2 палуб, через запятую (А1,Б1)')
+mapa = ship.ship_2(posiv=ship_2_1, masiv=mapa)
+start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+ship_1_1 = input('Назовите координаты кораля состоящего из 1 палубы, через запятую (А1)')
+mapa = ship.ship_1(posiv=ship_1_1, masiv=mapa)
+start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+ship_1_2 = input('Назовите координаты кораля состоящего из 1 палубы, через запятую (А1)')
+mapa = ship.ship_1(posiv=ship_1_2, masiv=mapa)
+start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+ship_1_2 = input('Назовите координаты кораля состоящего из 1 палубы, через запятую (А1)')
+mapa = ship.ship_1(posiv=ship_1_2, masiv=mapa)
+start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+
 
 
 
