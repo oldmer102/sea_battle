@@ -5,6 +5,8 @@ Y = 6
 #словарь расстановки
 my_slov = {}
 my_slov_enemy = {'А1,Б1,В1': [[0, 0], [1, 0], [2, 0]], 'Е1,Е2': [[5, 0], [5, 1]], 'Е4,Е5': [[5, 3], [5, 4]], 'А3': [[0, 2]], 'Б5': [[1, 4]], 'Г3': [[3, 2]]}
+finish = []
+
 #словарь содержит координаты взрыва корабля
 slov_deat = {}
 slov_deat_enemy = {}
@@ -87,6 +89,17 @@ class Ship(object):
                         return False
             for k, n in mass:
                 masiv[n][k] = "■"
+            Ship.slovar_enemy(self, name, mass)
+            jep = rules.placement_rules_x(position=my_slov_enemy, name=name)
+            for i in jep:
+                deat_position_enemy.append(i)
+            slov_deat_enemy.update({name: jep})
+            for i in busy_slot__enemy:
+                for v in mass:
+                    if i == v:
+                        return False
+            for i in mass:
+                busy_slot__enemy.append(i)
             return masiv
         if player == 2:
             Ship.slovar_enemy(self, name, mass)
@@ -148,6 +161,17 @@ class Ship(object):
                         return False
             for k, n in mass:
                 masiv[n][k] = "■"
+            Ship.slovar_enemy(self, name, mass)
+            jep = rules.placement_rules_x(position=my_slov_enemy, name=name)
+            for i in jep:
+                deat_position_enemy.append(i)
+            slov_deat_enemy.update({name: jep})
+            for i in busy_slot__enemy:
+                for v in mass:
+                    if i == v:
+                        return False
+            for i in mass:
+                busy_slot__enemy.append(i)
             return masiv
         if player == 2:
             Ship.slovar_enemy(self, name, mass)
@@ -199,6 +223,17 @@ class Ship(object):
                         return False
             for k, n in mass:
                 masiv[n][k] = "■"
+            Ship.slovar_enemy(self, name, mass)
+            jep = rules.placement_rules_x(position=my_slov_enemy, name=name)
+            for i in jep:
+                deat_position_enemy.append(i)
+            slov_deat_enemy.update({name: jep})
+            for i in busy_slot__enemy:
+                for v in mass:
+                    if i == v:
+                        return False
+            for i in mass:
+                busy_slot__enemy.append(i)
             return masiv
         if player == 2:
             Ship.slovar_enemy(self, name, mass)
@@ -301,6 +336,7 @@ class PlacementRules():
 class StartGame():
     #запись выстрела
     def shot_you(self, shot_position, array):
+
         mass = [["", ""]]
         if len(shot_position.split(",")) != 1:
             return False
@@ -314,7 +350,10 @@ class StartGame():
             for i in v:
                 for b in mass:
                     if i == b:
+                        print('Попал!')
+                        finish.append(1)
                         my_slov_enemy[k].remove(i)
+
         for k, v in my_slov_enemy.items():
             if len(v) == 0:
 
