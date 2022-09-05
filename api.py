@@ -4,8 +4,9 @@ X = 6
 Y = 6
 #словарь расстановки
 my_slov = {}
-my_slov_enemy = {'А1,Б1,В1': [[0, 0], [1, 0], [2, 0]], 'Е1,Е2': [[5, 0], [5, 1]], 'Е4,Е5': [[5, 3], [5, 4]], 'А3': [[0, 2]], 'Б5': [[1, 4]], 'Г3': [[3, 2]]}
+my_slov_enemy = {}
 finish = []
+finish_enemy = []
 
 #словарь содержит координаты взрыва корабля
 slov_deat = {}
@@ -58,8 +59,9 @@ class Ship(object):
         pos_ch = 1
         pos_mas = 0
         mass = [["", ""], ["", ""], ["", ""]]
-        name = posiv
+        name = str(posiv)
         rules = PlacementRules()
+
         if len(posiv.split(",")) != 3:
             return False
         for k in posiv.split(","):
@@ -67,8 +69,9 @@ class Ship(object):
                 if b.isdigit() == False:
                     mass[pos_mas][pos_b] = ord(b.lower()) - 1072
                 else:
-                    mass[pos_mas][pos_ch] = int(b)-1
+                    mass[pos_mas][pos_ch] = int(b) - 1
             pos_mas += 1
+
         if not rules.placement_check(position=mass):
             return False
         if player == 1:
@@ -89,17 +92,6 @@ class Ship(object):
                         return False
             for k, n in mass:
                 masiv[n][k] = "■"
-            Ship.slovar_enemy(self, name, mass)
-            jep = rules.placement_rules_x(position=my_slov_enemy, name=name)
-            for i in jep:
-                deat_position_enemy.append(i)
-            slov_deat_enemy.update({name: jep})
-            for i in busy_slot__enemy:
-                for v in mass:
-                    if i == v:
-                        return False
-            for i in mass:
-                busy_slot__enemy.append(i)
             return masiv
         if player == 2:
             Ship.slovar_enemy(self, name, mass)
@@ -129,7 +121,7 @@ class Ship(object):
         pos_ch = 1
         pos_mas = 0
         mass = [["", ""], ["", ""]]
-        name = posiv
+        name = str(posiv)
         rules = PlacementRules()
         if len(posiv.split(",")) != 2:
             return False
@@ -161,17 +153,6 @@ class Ship(object):
                         return False
             for k, n in mass:
                 masiv[n][k] = "■"
-            Ship.slovar_enemy(self, name, mass)
-            jep = rules.placement_rules_x(position=my_slov_enemy, name=name)
-            for i in jep:
-                deat_position_enemy.append(i)
-            slov_deat_enemy.update({name: jep})
-            for i in busy_slot__enemy:
-                for v in mass:
-                    if i == v:
-                        return False
-            for i in mass:
-                busy_slot__enemy.append(i)
             return masiv
         if player == 2:
             Ship.slovar_enemy(self, name, mass)
@@ -200,11 +181,12 @@ class Ship(object):
         rules = PlacementRules()
         if len(posiv.split(",")) != 1:
             return False
-        for b in posiv:
-            if b.isdigit() == False:
-                mass[0][0] = ord(b.lower()) - 1072
-            else:
-                mass[0][1] = int(b) - 1
+        for k in posiv.split(","):
+            for b in k:
+                if b.isdigit() == False:
+                    mass[0][0] = ord(b.lower()) - 1072
+                else:
+                    mass[0][1] = int(b) - 1
         if player == 1:
             Ship.slovar(self, name, mass)
             jep = rules.placement_rules_x(position=my_slov, name=name)
@@ -223,17 +205,6 @@ class Ship(object):
                         return False
             for k, n in mass:
                 masiv[n][k] = "■"
-            Ship.slovar_enemy(self, name, mass)
-            jep = rules.placement_rules_x(position=my_slov_enemy, name=name)
-            for i in jep:
-                deat_position_enemy.append(i)
-            slov_deat_enemy.update({name: jep})
-            for i in busy_slot__enemy:
-                for v in mass:
-                    if i == v:
-                        return False
-            for i in mass:
-                busy_slot__enemy.append(i)
             return masiv
         if player == 2:
             Ship.slovar_enemy(self, name, mass)
@@ -286,8 +257,8 @@ class PlacementRules():
         return True
 #Запись взрыва кораля
     def placement_rules_x(self, position, name):
-        self.name = name
-        array = position[self.name]
+
+        array = position[name]
         zapret = []
         position_1 = array[0][0]
         position_2 = array[0][1]
@@ -356,17 +327,41 @@ class StartGame():
 
         for k, v in my_slov_enemy.items():
             if len(v) == 0:
-
                 del my_slov_enemy[k]
                 deat = slov_deat_enemy[k]
                 for i, m in deat:
                     if i >= 0 and m >= 0:
-                        array[m][i] = 'X'
+                        try:
+                            array[m][i] = 'X'
+                        except IndexError:
+                            pass
                 del slov_deat_enemy[k]
                 return array
 
         return array
+    def shot_eneny(self, shot_position, array):
+        print(shot_position)
+        array[shot_position[0][1]][shot_position[0][0]] = 'X'
+        for k, v in my_slov.items():
+            for i in v:
+                for b in shot_position:
+                    if i == b:
+                        finish_enemy.append(1)
+                        my_slov[k].remove(i)
 
+        for k, v in my_slov.items():
+            if len(v) == 0:
+                del my_slov[k]
+                deat = slov_deat[k]
+                for i, m in deat:
+                    if i >= 0 and m >= 0:
+                        try:
+                            array[m][i] = 'X'
+                        except IndexError:
+                            pass
+                del slov_deat[k]
+                return array
+        return array
 #Закраска полей вокруг корабля
     # def deat_ship(self, array):
     #     for k, v in my_slov.items():
