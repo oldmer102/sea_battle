@@ -7,7 +7,9 @@ my_slov = {}
 my_slov_enemy = {}
 finish = []
 finish_enemy = []
-
+#Список выстрелов
+you_shot = []
+enemy_shot = []
 #словарь содержит координаты взрыва корабля
 slov_deat = {}
 slov_deat_enemy = {}
@@ -316,7 +318,14 @@ class StartGame():
                 mass[0][0] = ord(b.lower()) - 1072
             else:
                 mass[0][1] = int(b) - 1
-        array[mass[0][1]][mass[0][0]] = 'X'
+        for you in mass:
+            for you_s in you_shot:
+                if you == you_s:
+                    print('Нельзя стрелять в одно и тоже')
+                    return False
+            array[you[1]][you[0]] = 'X'
+            you_shot.append(you)
+
         for k, v in my_slov_enemy.items():
             for i in v:
                 for b in mass:
@@ -324,6 +333,7 @@ class StartGame():
                         print('Попал!')
                         finish.append(1)
                         my_slov_enemy[k].remove(i)
+
 
         for k, v in my_slov_enemy.items():
             if len(v) == 0:
@@ -340,11 +350,21 @@ class StartGame():
 
         return array
     def shot_eneny(self, shot_position, array):
-        print(shot_position)
+        for you in shot_position:
+            for you_s in enemy_shot:
+                if you == you_s:
+                    return False
+            array[you[1]][you[0]] = 'X'
+            enemy_shot.append(you)
         array[shot_position[0][1]][shot_position[0][0]] = 'X'
         for k, v in my_slov.items():
             for i in v:
                 for b in shot_position:
+                    for you in enemy_shot:
+                        if you == b:
+                            return False
+                        else:
+                            enemy_shot.append(you)
                     if i == b:
                         finish_enemy.append(1)
                         my_slov[k].remove(i)
@@ -362,6 +382,10 @@ class StartGame():
                 del slov_deat[k]
                 return array
         return array
+
+    def check_you_shot(self):
+        pass
+
 #Закраска полей вокруг корабля
     # def deat_ship(self, array):
     #     for k, v in my_slov.items():

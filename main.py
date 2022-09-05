@@ -23,68 +23,76 @@ if amount == 1:
 tru = False
 k = 0
 while k < 10:
-    while tru == False:
+    while not tru:
         ship_3 = input(
             'Начнём с расстаноки, назовите координаты кораля состоящего из 3 палуб, через запятую (А1,Б1,В1)')
         mapa = ship.ship_3(posiv=ship_3, masiv=masiv_a, player=1)
-        if mapa == False:
+        if not mapa:
             tru = False
         else:
             tru = True
             start_field(masiv_you=mapa, masiv_enemy=masiv_e)
     tru = False
-    while tru == False:
+    while not tru:
         ship_2 = input('Назовите координаты кораля состоящего из 2 палуб, через запятую (А1,Б1)')
         mapa = ship.ship_2(posiv=ship_2, masiv=masiv_a, player=1)
-        if mapa == False:
+        if not mapa:
             tru = False
         else:
             tru = True
             start_field(masiv_you=mapa, masiv_enemy=masiv_e)
     tru = False
-    while tru == False:
+    while not tru:
         ship_2_1 = input('Назовите координаты кораля состоящего из 2 палуб, через запятую (А1,Б1)')
-        mapa = ship.ship_2(posiv=ship_2_1, masiv=mapa, player=1)
-        if mapa == False:
+        mapa = ship.ship_2(posiv=ship_2_1, masiv=masiv_a, player=1)
+        if not mapa:
             tru = False
         else:
             tru = True
             start_field(masiv_you=mapa, masiv_enemy=masiv_e)
     tru = False
-    while tru == False:
+    while not tru:
         ship_1_1 = input('Назовите координаты кораля состоящего из 1 палубы, через запятую (А1)')
-        mapa = ship.ship_1(posiv=ship_1_1, masiv=mapa, player=1)
-        if mapa == False:
+        mapa = ship.ship_1(posiv=ship_1_1, masiv=masiv_a, player=1)
+        if not mapa:
             tru = False
         else:
             tru = True
             start_field(masiv_you=mapa, masiv_enemy=masiv_e)
     tru = False
-    while tru == False:
+    while not tru:
         ship_1_2 = input('Назовите координаты кораля состоящего из 1 палубы, через запятую (А1)')
-        mapa = ship.ship_1(posiv=ship_1_2, masiv=mapa, player=1)
-        if mapa == False:
+        mapa = ship.ship_1(posiv=ship_1_2, masiv=masiv_a, player=1)
+        if not mapa:
             tru = False
         else:
             tru = True
             start_field(masiv_you=mapa, masiv_enemy=masiv_e)
     tru = False
-    while tru == False:
+    while not tru:
         ship_1_3 = input('Назовите координаты кораля состоящего из 1 палубы, через запятую (А1)')
-        mapa = ship.ship_1(posiv=ship_1_3, masiv=mapa, player=1)
-        if mapa == False:
+        mapa = ship.ship_1(posiv=ship_1_3, masiv=masiv_a, player=1)
+        if not mapa:
             tru = False
         else:
             tru = True
             start_field(masiv_you=mapa, masiv_enemy=masiv_e)
     ship_enemy()
     while len(finish) < 10:
-        shot = input('Выстрел!')
-        masiv_e = game.shot_you(shot_position=shot, array=masiv_e)
-        shot_ene = [random.randrange(0, 5), random.randrange(0, 5)]
-        mapa = game.shot_eneny(shot_position=[shot_ene], array=mapa)
 
-        start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+        cen = False
+        while not cen:
+            shot = input('Выстрел!')
+            masiv_F = game.shot_you(shot_position=shot, array=masiv_e)
+            if masiv_F:
+                cen = masiv_e
+        cen = False
+        while not cen:
+            shot_ene = [random.randrange(0, 5), random.randrange(0, 5)]
+            masiv_Е = game.shot_eneny(shot_position=[shot_ene], array=mapa)
+            if masiv_Е:
+                cen = mapa
+        start_field(masiv_you=masiv_Е, masiv_enemy=masiv_F)
 
 
 
