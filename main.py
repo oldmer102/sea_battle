@@ -2,8 +2,8 @@ from api import NewGame
 from api import Ship
 from api import StartGame
 from field import start_field
-from api import finish
-from api import my_slov
+from api import finish, finish_enemy
+
 from bot_sea_battle import ship_enemy
 import random
 
@@ -15,14 +15,15 @@ ship = Ship()
 game = StartGame()
 masiv_a = [["-"] * X for i in range(Y)]
 masiv_e = [["-"] * X for g in range(Y)]
-amount = int(input("Сколько будет игроков, 1 или 2? "))
-if amount == 1:
-    name_player_1 = input('Как вас называть? ')
-    new_game = NewGame(amount_player=amount, name_1=name_player_1, name_2=None)
-    new_game.game_map_player_1()
+
+name_player_1 = input('Как вас называть? ')
+new_game = NewGame(amount_player=1, name_1=name_player_1, name_2=None)
+new_game.game_map_player_1()
+
 tru = False
-k = 0
-while k < 10:
+k = True
+
+while len(finish) < 10 or len(finish_enemy) < 10:
     while not tru:
         ship_3 = input(
             'Начнём с расстаноки, назовите координаты кораля состоящего из 3 палуб, через запятую (А1,Б1,В1)')
@@ -77,23 +78,43 @@ while k < 10:
         else:
             tru = True
             start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+    tru = False
+    while not tru:
+        ship_1_4 = input('Назовите координаты кораля состоящего из 1 палубы, через запятую (А1)')
+        mapa = ship.ship_1(posiv=ship_1_4, masiv=masiv_a, player=1)
+        if not mapa:
+            tru = False
+        else:
+            tru = True
+            start_field(masiv_you=mapa, masiv_enemy=masiv_e)
+
     ship_enemy()
-    while len(finish) < 10:
+
+    while len(finish) < 9 or len(finish_enemy) < 9:
 
         cen = False
         while not cen:
             shot = input('Выстрел!')
             masiv_F = game.shot_you(shot_position=shot, array=masiv_e)
             if masiv_F:
-                cen = masiv_e
+                cen = masiv_F
         cen = False
         while not cen:
             shot_ene = [random.randrange(0, 5), random.randrange(0, 5)]
-            masiv_Е = game.shot_eneny(shot_position=[shot_ene], array=mapa)
-            if masiv_Е:
-                cen = mapa
-        start_field(masiv_you=masiv_Е, masiv_enemy=masiv_F)
+            masiv_G = game.shot_eneny(shot_position=[shot_ene], array=mapa)
+            if masiv_G:
+                cen = masiv_G
+        start_field(masiv_you=cen, masiv_enemy=masiv_F)
+        if len(finish) == 10 or len(finish_enemy) == 10:
+            break
+    if len(finish) == 10 or len(finish_enemy) == 10:
+        break
 
+
+if len(finish) == 10:
+    print('Вы победили!')
+elif len(finish_enemy) == 10:
+    print('Победил бот!')
 
 
 

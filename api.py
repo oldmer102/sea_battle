@@ -278,6 +278,8 @@ class PlacementRules():
                     zapret.append([position_1, position_2 - 1])
                     zapret.append([position_1 + 1, position_2 - 1])
                     zapret.append([position_last_1, position_last_2 + 1])
+                    zapret.append([position_last_1 + 1, position_last_2])
+                    zapret.append([position_last_1 - 1, position_last_2])
             # Горизонталь
             if array[1][1] == position_2:
                 for k, v in array[1:]:
@@ -335,6 +337,7 @@ class StartGame():
                         my_slov_enemy[k].remove(i)
 
 
+
         for k, v in my_slov_enemy.items():
             if len(v) == 0:
                 del my_slov_enemy[k]
@@ -345,24 +348,30 @@ class StartGame():
                             array[m][i] = 'X'
                         except IndexError:
                             pass
+                for i in slov_deat_enemy[k]:
+                    you_shot.append(i)
                 del slov_deat_enemy[k]
                 return array
 
         return array
+
+
     def shot_eneny(self, shot_position, array):
         for you in shot_position:
             for you_s in enemy_shot:
                 if you == you_s:
                     return False
-            array[you[1]][you[0]] = 'X'
-            enemy_shot.append(you)
+                else:
+                    enemy_shot.append(you)
+                    array[you[1]][you[0]] = 'X'
+
         array[shot_position[0][1]][shot_position[0][0]] = 'X'
         for k, v in my_slov.items():
             for i in v:
                 for b in shot_position:
                     for you in enemy_shot:
                         if you == b:
-                            return False
+                            pass
                         else:
                             enemy_shot.append(you)
                     if i == b:
@@ -376,6 +385,7 @@ class StartGame():
                 for i, m in deat:
                     if i >= 0 and m >= 0:
                         try:
+
                             array[m][i] = 'X'
                         except IndexError:
                             pass
@@ -383,23 +393,6 @@ class StartGame():
                 return array
         return array
 
-    def check_you_shot(self):
-        pass
-
-#Закраска полей вокруг корабля
-    # def deat_ship(self, array):
-    #     for k, v in my_slov.items():
-    #         if len(v) == 0:
-    #
-    #             del my_slov[k]
-    #             deat = slov_deat[k]
-    #             for i, m in deat:
-    #                 if i >= 0 and m >= 0:
-    #                     array[m][i] = 'X'
-    #             del slov_deat[k]
-    #             return array
-    #         else:
-    #             return False
 
 
 
